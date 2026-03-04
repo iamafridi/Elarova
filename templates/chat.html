@@ -32,9 +32,338 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <style>
+      /* Main Chat Theme - Matching AI Widget */
+      .card {
+        border-radius: 20px !important;
+        box-shadow: 0 10px 40px rgba(102, 126, 234, 0.25) !important;
+        border: none !important;
+        margin-top: 20px !important;
+        margin-bottom: 20px !important;
+      }
+      .chat {
+        padding: 20px 0 !important;
+      }
+      .msg_head {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        border-radius: 20px 20px 0 0 !important;
+        padding: 20px !important;
+      }
+      .user_info span {
+        color: white !important;
+        font-weight: 600 !important;
+        font-size: 18px !important;
+      }
+      .user_info p {
+        color: rgba(255,255,255,0.8) !important;
+        font-size: 12px !important;
+      }
+      .online_icon {
+        background: #10b981 !important;
+      }
+      .msg_card_body {
+        background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%) !important;
+      }
+      .type_msg {
+        border-radius: 25px !important;
+        padding: 15px 20px !important;
+        border: 2px solid #e0e0e0 !important;
+        font-family: 'Poppins', sans-serif !important;
+      }
+      .type_msg:focus {
+        border-color: #667eea !important;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
+      }
+      .send_btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        border-radius: 25px !important;
+        width: 45px !important;
+      }
+      .send_btn:hover {
+        background: linear-gradient(135deg, #5a6fd6 0%, #6a4190 100%) !important;
+      }
+      .msg_cotainer_send {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        color: white !important;
+        border-radius: 20px 20px 5px 20px !important;
+      }
+      .msg_time_send {
+        color: rgba(255,255,255,0.7) !important;
+      }
+      .msg_cotainer {
+        background: white !important;
+        color: #333 !important;
+        border-radius: 20px 20px 20px 5px !important;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08) !important;
+      }
+      .msg_time {
+        color: #999 !important;
+      }
+      .card-footer {
+        background: white !important;
+        border-radius: 0 0 20px 20px !important;
+        padding: 15px 20px !important;
+        border: none !important;
+      }
+      
+      .input-group {
+        background: white !important;
+        border-radius: 30px !important;
+        padding: 5px !important;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05) !important;
+      }
+      
+      /* Language Select */
+      #languageSelect {
+        background: rgba(255,255,255,0.2) !important;
+        border: none !important;
+        color: white !important;
+        border-radius: 8px !important;
+        padding: 5px 10px !important;
+        font-size: 12px !important;
+      }
+      #languageSelect option {
+        background: #667eea !important;
+        color: white !important;
+      }
+      
+      /* Floating AI Help Button */
+      #aiHelpBtn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 15px 25px;
+        border-radius: 30px;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        z-index: 9999;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        border: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+      }
+      #aiHelpBtn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+      }
+      
+      /* AI Chat Widget */
+      #aiWidget {
+        position: fixed;
+        bottom: 80px;
+        right: 20px;
+        width: 380px;
+        height: 500px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        display: none;
+        z-index: 9999;
+        flex-direction: column;
+        font-family: 'Poppins', sans-serif;
+      }
+      .ai-widget-header {
+        flex-shrink: 0;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .ai-widget-header select {
+        background: rgba(255,255,255,0.2);
+        border: none;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 12px;
+      }
+      .ai-widget-header select option {
+        background: #667eea;
+        color: white;
+      }
+      .ai-widget-close {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+        line-height: 1;
+      }
+      .ai-widget-body {
+        flex: 1;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: 15px;
+        background: #f8f9fa;
+        scroll-behavior: smooth;
+        min-height: 200px;
+        max-height: 380px;
+      }
+      .ai-widget-body::-webkit-scrollbar {
+        width: 6px;
+      }
+      .ai-widget-body::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+      .ai-widget-body::-webkit-scrollbar-thumb {
+        background: #667eea;
+        border-radius: 3px;
+      }
+      .ai-widget-footer {
+        padding: 10px;
+        background: white;
+        border-top: 1px solid #eee;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .ai-widget-footer input[type="text"] {
+        flex: 1;
+        border: 1px solid #ddd;
+        border-radius: 20px;
+        padding: 8px 15px;
+        outline: none;
+      }
+      .ai-widget-footer input[type="text"]:focus {
+        border-color: #667eea;
+      }
+      .ai-widget-footer #aiImagePreview {
+        width: 100%;
+        max-height: 150px;
+        object-fit: cover;
+        border-radius: 10px;
+        display: none;
+        margin-bottom: 5px;
+      }
+      .ai-msg {
+        max-width: 80%;
+        padding: 10px 15px;
+        border-radius: 15px;
+        margin-bottom: 10px;
+        font-size: 14px;
+        word-wrap: break-word;
+      }
+      .ai-msg-user {
+        background: #667eea;
+        color: white;
+        margin-left: auto;
+        border-bottom-right-radius: 2px;
+      }
+      .ai-msg-bot {
+        background: white;
+        color: #333;
+        border-bottom-left-radius: 2px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      }
+      
+      /* Main Chat Mic Button - Updated UI */
+      #micBtn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        border: none !important;
+        width: 45px !important;
+        border-radius: 25px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        transition: all 0.3s ease !important;
+        box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3) !important;
+        margin-left: 8px !important;
+        margin-right: 8px !important;
+      }
+      #micBtn i {
+        color: white !important;
+      }
+      #micBtn:hover {
+        transform: scale(1.05) !important;
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.5) !important;
+      }
+      #micBtn.listening {
+        background: linear-gradient(135deg, #dc3545 0%, #c82333 100%) !important;
+        animation: micPulse 1s infinite !important;
+      }
+      @keyframes micPulse {
+        0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); }
+        50% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(220, 53, 69, 0); }
+      }
+      
+      /* AI Widget Mic Button - Fixed */
+      #aiMicBtn {
+        background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+        border: none;
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(108, 117, 125, 0.3);
+        flex-shrink: 0;
+      }
+      #aiMicBtn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(108, 117, 125, 0.5);
+      }
+      #aiMicBtn.listening {
+        background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        animation: aiMicPulse 1s infinite;
+      }
+      @keyframes aiMicPulse {
+        0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); }
+        50% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(220, 53, 69, 0); }
+      }
+      
+      /* AI Widget Image Button */
+      #aiImageBtn {
+        background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+        border: none;
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(108, 117, 125, 0.3);
+        flex-shrink: 0;
+      }
+      #aiImageBtn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(108, 117, 125, 0.5);
+      }
+      
+      /* AI Widget Send Button */
+      #aiSendBtn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        flex-shrink: 0;
+      }
+      #aiSendBtn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.5);
+      }
+    </style>
   </head>
 
-  <body>
+  <body style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh;">
     <div class="container-fluid h-100">
       <div class="row justify-content-center h-100">
         <div class="col-md-8 col-xl-6 chat">
@@ -46,12 +375,25 @@
                     src="https://cdn-icons-png.flaticon.com/512/387/387569.png"
                     class="rounded-circle user_img"
                   />
-                  <!-- <img src="https://www.prdistribution.com/spirit/uploads/pressreleases/2019/newsreleases/d83341deb75c4c4f6b113f27b1e42cd8-chatbot-florence-already-helps-thousands-of-patients-to-remember-their-medication.png" class="rounded-circle user_img"> -->
                   <span class="online_icon"></span>
                 </div>
                 <div class="user_info">
                   <span>ELAROVA</span>
                   <p>Ask me anything!</p>
+                </div>
+                <div class="ml-auto d-flex align-items-center">
+                  <select id="languageSelect">
+                    <option value="en-US">English</option>
+                    <option value="bn-BD">Bangla</option>
+                    <option value="hi-IN">Hindi</option>
+                  </select>
+                  <button id="bgUploadBtn" title="Change background" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 5px 12px; border-radius: 8px; margin-left: 10px; cursor: pointer; display: flex; align-items: center; gap: 5px; font-size: 12px;">
+                    <i class="fas fa-image"></i> Background
+                  </button>
+                  <button id="bgRevertBtn" title="Revert to default background" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 5px 12px; border-radius: 8px; margin-left: 5px; cursor: pointer; display: none; align-items: center; gap: 5px; font-size: 12px;">
+                    <i class="fas fa-undo"></i> Revert
+                  </button>
+                  <input type="file" id="bgImageUpload" accept="image/*" hidden>
                 </div>
               </div>
             </div>
@@ -65,9 +407,18 @@
                   placeholder="Type your message..."
                   autocomplete="off"
                   class="form-control type_msg"
+                  style="margin-right: 8px;"
                   required
                 />
-                <div class="input-group-append">
+                <div class="input-group-append" style="gap: 8px;">
+                  <button
+                    type="button"
+                    id="micBtn"
+                    class="input-group-text"
+                    title="Click to speak"
+                  >
+                    <i class="fas fa-microphone"></i>
+                  </button>
                   <button
                     type="submit"
                     id="send"
@@ -83,8 +434,243 @@
       </div>
     </div>
 
+    <!-- Floating AI Help Button -->
+    <button id="aiHelpBtn">
+      <i class="fas fa-robot"></i> Ask AI Help
+    </button>
+
+    <!-- AI Chat Widget -->
+    <div id="aiWidget">
+      <div class="ai-widget-header">
+        <span><i class="fas fa-robot"></i> AI Helper</span>
+        <div>
+          <select id="aiModelSelect">
+            <option value="ollama">Ollama</option>
+            <option value="gpt">GPT-4</option>
+            <option value="gemini">Gemini</option>
+            <option value="claude">Claude</option>
+          </select>
+          <button class="ai-widget-close" id="closeAiWidget">&times;</button>
+        </div>
+      </div>
+      <div class="ai-widget-body" id="aiChatBody">
+        <div class="ai-msg ai-msg-bot">Hello! I'm your AI assistant. Ask me anything - I can help with images, voice input, or just regular questions!</div>
+      </div>
+      <div class="ai-widget-footer">
+        <img id="aiImagePreview" src="" alt="Preview">
+        <button id="aiMicBtn" title="Voice input"><i class="fas fa-microphone"></i></button>
+        <button id="aiImageBtn" title="Upload image"><i class="fas fa-image"></i></button>
+        <input type="file" id="aiImageUpload" accept="image/*" hidden>
+        <input type="text" id="aiInput" placeholder="Ask anything...">
+        <button id="aiSendBtn" title="Send"><i class="fas fa-paper-plane"></i></button>
+      </div>
+    </div>
+
     <script>
-      $(document).ready(function () {
+      $(document).ready(function() {
+        // ============================================
+        // FEATURE #4: Speech-to-Text for Main Chat
+        // ============================================
+        let mainChatRecognition;
+        let isMainChatListening = false;
+
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+          const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+          mainChatRecognition = new SpeechRecognition();
+          mainChatRecognition.continuous = false;
+          mainChatRecognition.interimResults = false;
+
+          mainChatRecognition.onresult = function(event) {
+            const transcript = event.results[0][0].transcript;
+            $("#text").val($("#text").val() + " " + transcript);
+            $("#micBtn").removeClass("listening");
+            isMainChatListening = false;
+          };
+
+          mainChatRecognition.onerror = function(event) {
+            console.error("Speech recognition error:", event.error);
+            alert("Speech recognition error: " + event.error);
+            $("#micBtn").removeClass("listening");
+            isMainChatListening = false;
+          };
+
+          mainChatRecognition.onend = function() {
+            $("#micBtn").removeClass("listening");
+            isMainChatListening = false;
+          };
+
+          $("#micBtn").click(function() {
+            if (!isMainChatListening) {
+              mainChatRecognition.lang = $("#languageSelect").val();
+              try {
+                mainChatRecognition.start();
+                isMainChatListening = true;
+                $("#micBtn").addClass("listening");
+              } catch(e) {
+                console.error("Start error:", e);
+                isMainChatListening = false;
+              }
+            } else {
+              mainChatRecognition.stop();
+              isMainChatListening = false;
+              $("#micBtn").removeClass("listening");
+            }
+          });
+        } else {
+          $("#micBtn").prop("disabled", true).attr("title", "Speech recognition not supported in this browser");
+          alert("Speech recognition is not supported in this browser. Please use Chrome or Edge.");
+        }
+
+        // ============================================
+        // FEATURE #5: Floating AI Help Widget
+        // ============================================
+        
+        // Toggle widget visibility
+        $("#aiHelpBtn").click(function() {
+          $("#aiWidget").slideDown(300);
+          $("#aiHelpBtn").hide();
+        });
+
+        $("#closeAiWidget").click(function() {
+          $("#aiWidget").slideUp(300);
+          $("#aiHelpBtn").show();
+        });
+
+        // AI Widget Speech Recognition
+        let aiRecognition;
+        let isAiListening = false;
+
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+          const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+          aiRecognition = new SpeechRecognition();
+          aiRecognition.continuous = false;
+          aiRecognition.interimResults = false;
+
+          aiRecognition.onresult = function(event) {
+            const transcript = event.results[0][0].transcript;
+            $("#aiInput").val($("#aiInput").val() + " " + transcript);
+            $("#aiMicBtn").removeClass("listening");
+            isAiListening = false;
+          };
+
+          aiRecognition.onerror = function(event) {
+            console.error("AI Speech recognition error:", event.error);
+            $("#aiMicBtn").removeClass("listening");
+            isAiListening = false;
+          };
+
+          aiRecognition.onend = function() {
+            $("#aiMicBtn").removeClass("listening");
+            isAiListening = false;
+          };
+
+          $("#aiMicBtn").click(function() {
+            if (!isAiListening) {
+              aiRecognition.lang = "en-US";
+              aiRecognition.start();
+              isAiListening = true;
+              $("#aiMicBtn").addClass("listening");
+            } else {
+              aiRecognition.stop();
+              isAiListening = false;
+              $("#aiMicBtn").removeClass("listening");
+            }
+          });
+        } else {
+          $("#aiMicBtn").prop("disabled", true).attr("title", "Speech recognition not supported");
+        }
+
+      // Image upload handling
+      $("#aiImageBtn").click(function() {
+        $("#aiImageUpload").click();
+      });
+
+      $("#aiImageUpload").change(function(e) {
+        if (this.files && this.files[0]) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            $("#aiImagePreview").attr("src", e.target.result).show();
+          };
+          reader.readAsDataURL(this.files[0]);
+        }
+      });
+
+      // Send message to AI helper
+      function sendToAI() {
+        const message = $("#aiInput").val().trim();
+        const imageFile = $("#aiImageUpload")[0].files[0];
+        const model = $("#aiModelSelect").val();
+
+        if (!message && !imageFile) return;
+
+        const date = new Date();
+        const str_time = date.getHours() + ":" + date.getMinutes();
+
+        // Add user message
+        let userMsgHtml = '<div class="ai-msg ai-msg-user">' + message + '</div>';
+        if (imageFile) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            userMsgHtml = '<div class="ai-msg ai-msg-user"><img src="' + e.target.result + '" style="max-width:100%;border-radius:8px;margin-bottom:5px;"><br>' + message + '</div>';
+            $("#aiChatBody").append(userMsgHtml);
+            $("#aiChatBody").scrollTop($("#aiChatBody")[0].scrollHeight);
+          };
+          reader.readAsDataURL(imageFile);
+          return;
+        }
+        
+        $("#aiChatBody").append(userMsgHtml);
+        $("#aiInput").val("");
+        $("#aiImagePreview").hide();
+        $("#aiImageUpload").val("");
+        $("#aiChatBody").scrollTop($("#aiChatBody")[0].scrollHeight);
+
+        // Show loading
+        $("#aiChatBody").append('<div class="ai-msg ai-msg-bot" id="aiLoading"><i class="fas fa-spinner fa-spin"></i> Thinking...</div>');
+        $("#aiChatBody").scrollTop($("#aiChatBody")[0].scrollHeight);
+
+        // Prepare form data
+        const formData = new FormData();
+        formData.append("message", message);
+        formData.append("model", model);
+        if (imageFile) {
+          formData.append("image", imageFile);
+        }
+
+        // Send to backend
+        $.ajax({
+          url: "/ai-chat",
+          type: "POST",
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function(response) {
+            $("#aiLoading").remove();
+            $("#aiChatBody").append('<div class="ai-msg ai-msg-bot">' + response + '</div>');
+            $("#aiChatBody").scrollTop($("#aiChatBody")[0].scrollHeight);
+          },
+          error: function(xhr) {
+            $("#aiLoading").remove();
+            let errorMsg = "Sorry, something went wrong.";
+            if (xhr.responseJSON && xhr.responseJSON.error) {
+              errorMsg = xhr.responseJSON.error;
+            }
+            $("#aiChatBody").append('<div class="ai-msg ai-msg-bot" style="color:red;">' + errorMsg + '</div>');
+            $("#aiChatBody").scrollTop($("#aiChatBody")[0].scrollHeight);
+          }
+        });
+      }
+
+      $("#aiSendBtn").click(sendToAI);
+      $("#aiInput").keypress(function(e) {
+        if (e.which == 13) {
+          sendToAI();
+        }
+      });
+
+      // ============================================
+      // Original Main Chat Functionality
+      // ============================================
         $("#messageArea").on("submit", function (event) {
           const date = new Date();
           const hour = date.getHours();
@@ -134,6 +720,67 @@
             $("#messageFormeight").scrollTop($("#messageFormeight")[0].scrollHeight);
           });
           event.preventDefault();
+        });
+        
+        // Background Image Upload
+        let bgImageSrc = null;
+        let bgPositionX = 50;
+        let bgPositionY = 50;
+        const defaultBg = "linear-gradient(135deg, #667eea 0%, #764ba2 100%)";
+        
+        $("#bgUploadBtn").click(function() {
+          $("#bgImageUpload").click();
+        });
+
+        $("#bgRevertBtn").click(function() {
+          $("body").css("background", defaultBg);
+          $("body").css("background-size", "");
+          $("body").css("background-position", "");
+          bgImageSrc = null;
+          $("#bgRevertBtn").hide();
+        });
+
+        $("#bgImageUpload").change(function(e) {
+          if (this.files && this.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              bgImageSrc = e.target.result;
+              bgPositionX = 50;
+              bgPositionY = 50;
+              $("body").css("background", "url(" + bgImageSrc + ") no-repeat " + bgPositionX + "% " + bgPositionY + "% fixed");
+              $("body").css("background-size", "cover");
+              $("#bgRevertBtn").show();
+              
+              // Enable drag to adjust background position
+              let isDragging = false;
+              let startX, startY;
+              
+              $("body").on("mousedown", function(ev) {
+                if (ev.target.tagName !== 'INPUT' && ev.target.tagName !== 'TEXTAREA' && !$(ev.target).closest('.card').length) {
+                  isDragging = true;
+                  startX = ev.clientX;
+                  startY = ev.clientY;
+                }
+              });
+              
+              $("body").on("mousemove", function(ev) {
+                if (isDragging && bgImageSrc) {
+                  let deltaX = (startX - ev.clientX) * 0.5;
+                  let deltaY = (startY - ev.clientY) * 0.5;
+                  bgPositionX = Math.max(0, Math.min(100, bgPositionX + deltaX * 0.2));
+                  bgPositionY = Math.max(0, Math.min(100, bgPositionY + deltaY * 0.2));
+                  $("body").css("background-position", bgPositionX + "% " + bgPositionY + "%");
+                  startX = ev.clientX;
+                  startY = ev.clientY;
+                }
+              });
+              
+              $("body").on("mouseup", function() {
+                isDragging = false;
+              });
+            };
+            reader.readAsDataURL(this.files[0]);
+          }
         });
       });
     </script>
