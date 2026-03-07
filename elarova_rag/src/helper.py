@@ -14,6 +14,12 @@ def load_pdf_file(data):
     return documents
 
 
+#Load a single PDF file
+def load_single_pdf(file_path):
+    loader = PyPDFLoader(file_path)
+    documents = loader.load()
+    return documents
+
 
 #Split the Data into Text Chunks
 def text_split(extracted_data, chunk_size=500, chunk_overlap=20):
